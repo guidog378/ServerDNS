@@ -12,6 +12,7 @@ import java.util.Iterator;
 import modelo.Administrador;
 import modelo.Server;
 import modeloInfo.InfoConsultaFuncionalidad;
+import modeloInfo.InfoServer;
 
 public class ReceptorServers implements Runnable {
 
@@ -20,6 +21,9 @@ public class ReceptorServers implements Runnable {
 		ArrayList<Server> servers;
 		Server actual;
 		Socket socket;
+		Long milisegundos1 = (long) 0,milisegundos2 = (long) 0;
+		ObjectOutputStream oos;
+		ObjectInputStream ois;
 		while(true) {
 			servers = Administrador.getInstance().getServers();
 			Iterator<Server> it = servers.iterator();
@@ -30,7 +34,15 @@ public class ReceptorServers implements Runnable {
 					socket.connect(new InetSocketAddress(actual.getIpServer(),actual.getPuertoServer()), 300);
 					socket.setSoTimeout(300);
 					if(socket.isConnected()) {
-						actual.setFuncional(true);
+						oos = new ObjectOutputStream(socket.getOutputStream());
+						oos.writeObject(new InfoConsultaFuncionalidad());
+						ois = new ObjectInputStream(socket.getInputStream());
+						InfoServer infoFuncional = (InfoServer) ois.readObject();
+						milisegundos2 = System.currentTimeMillis();
+						if((milisegundos2 - milisegundos1) < socket.getSoTimeout())
+						    actual.setFuncional(true);
+						else
+							actual.setFuncional(false);
 					}else {
 						actual.setFuncional(false);
 					}
@@ -38,6 +50,9 @@ public class ReceptorServers implements Runnable {
 				} catch (UnknownHostException e) {
 					actual.setFuncional(false);
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
