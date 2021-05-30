@@ -13,7 +13,6 @@ import java.util.Iterator;
 import modelo.Administrador;
 import modelo.Server;
 import modeloInfo.InfoConsultaFuncionalidad;
-import modeloInfo.InfoServer;
 
 public class ReceptorServers implements Runnable {
 
@@ -38,7 +37,7 @@ public class ReceptorServers implements Runnable {
 						oos = new ObjectOutputStream(socket.getOutputStream());
 						oos.writeObject(new InfoConsultaFuncionalidad());
 						ois = new ObjectInputStream(socket.getInputStream());
-						InfoServer infoFuncional = (InfoServer) ois.readObject();
+						InfoConsultaFuncionalidad infoFuncional = (InfoConsultaFuncionalidad) ois.readObject();
 						milisegundos2 = System.currentTimeMillis();
 						if((milisegundos2 - milisegundos1) < socket.getSoTimeout())
 						    actual.setFuncional(true);

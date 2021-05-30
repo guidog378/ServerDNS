@@ -8,7 +8,6 @@ import java.net.Socket;
 
 import modelo.Administrador;
 import modelo.Server;
-import modeloInfo.InfoServer;
 import modeloInfo.InfoServerFuncional;
 import modeloInfo.Informable;
 
@@ -17,7 +16,6 @@ public class ReceptorClientes implements Runnable {
 	@Override
 	public void run() {
 	     try {
-	    	//Ver que puerto poner.
 			ServerSocket sv = new ServerSocket(9090);
 			Server server = null;
 			ObjectOutputStream oos;
