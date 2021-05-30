@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import modelo.Administrador;
 import modelo.Server;
-import modeloInfo.InfoConsultaFuncionalidad;
+import modeloInfo.InfoServerVivo;
 
 public class ReceptorServers implements Runnable {
 
@@ -34,10 +34,11 @@ public class ReceptorServers implements Runnable {
 					socket.connect(new InetSocketAddress(actual.getIpServer(),actual.getPuertoServer()), 300);
 					socket.setSoTimeout(300);
 					if(socket.isConnected()) {
+						milisegundos1 = System.currentTimeMillis();
 						oos = new ObjectOutputStream(socket.getOutputStream());
-						oos.writeObject(new InfoConsultaFuncionalidad());
+						oos.writeObject(new InfoServerVivo());
 						ois = new ObjectInputStream(socket.getInputStream());
-						InfoConsultaFuncionalidad infoFuncional = (InfoConsultaFuncionalidad) ois.readObject();
+						InfoServerVivo infoFuncional = (InfoServerVivo) ois.readObject();
 						milisegundos2 = System.currentTimeMillis();
 						if((milisegundos2 - milisegundos1) < socket.getSoTimeout())
 						    actual.setFuncional(true);
@@ -47,7 +48,6 @@ public class ReceptorServers implements Runnable {
 						actual.setFuncional(false);
 					}
 					socket.close();
-					//CAMBIAR LA EXCEPCION.
 				} catch (UnknownHostException e) {
 					actual.setFuncional(false);
 				} catch (IOException e) {

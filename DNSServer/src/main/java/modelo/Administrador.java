@@ -6,14 +6,12 @@ import java.util.Iterator;
 public class Administrador {
       private static Administrador administrador = null;
       private ArrayList<Server> servers;
+      private boolean ocupado;
       
       private Administrador() {
     	  this.servers = new ArrayList<Server>();
-      }
-      
-      public void agregarServer(String ip,int p1,int p2,int p3,int p4, boolean primario) {
-    	  this.servers.add(new Server(ip,p1,p2,p3,p4,primario));
-    	  System.out.println("Agregue un sv.");
+    	  this.servers.add(new Server("localhost",9090,9696,9797,9595,true));
+    	  this.servers.add(new Server("localhost",9191,8686,8787,8585,false));
       }
       
       public Server buscaServerPrimario() {
@@ -40,8 +38,8 @@ public class Administrador {
     	  return secundario;
       }
       
-      public ArrayList<Server> getServers() {
-		return servers;
+      public synchronized ArrayList<Server> getServers() {
+		  return servers;
 	  }
 
 	  public static Administrador getInstance() {
