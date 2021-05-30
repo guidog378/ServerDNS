@@ -12,6 +12,8 @@ import java.awt.FlowLayout;
 import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
 
+import comunicacion.ReceptorClientes;
+import comunicacion.ReceptorServers;
 import controlador.Controlador;
 
 import javax.swing.JTextField;
@@ -42,6 +44,10 @@ public class VentanaMonitor extends JFrame {
 				try {
 					VentanaMonitor frame = new VentanaMonitor();
 					Controlador c = new Controlador();
+					Thread t1 = new Thread(new ReceptorClientes());
+					Thread t2 = new Thread(new ReceptorServers());
+					t1.start();
+					t2.start();
 					c.setVentana(frame);
 					frame.setControlador(c);
 					frame.setVisible(true);
@@ -56,8 +62,9 @@ public class VentanaMonitor extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaMonitor() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 480, 352);
+		setBounds(100, 100, 543, 372);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
