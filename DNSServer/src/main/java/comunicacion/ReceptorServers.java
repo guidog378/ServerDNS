@@ -3,6 +3,7 @@ package comunicacion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -47,13 +48,13 @@ public class ReceptorServers implements Runnable {
 						actual.setFuncional(false);
 					}
 					socket.close();
+					//CAMBIAR LA EXCEPCION.
 				} catch (UnknownHostException e) {
 					actual.setFuncional(false);
 				} catch (IOException e) {
-					e.printStackTrace();
+					actual.setFuncional(false);
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					actual.setFuncional(false);
 				}
 			}
 			try {

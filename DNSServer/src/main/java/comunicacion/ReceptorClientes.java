@@ -10,12 +10,14 @@ import modelo.Administrador;
 import modelo.Server;
 import modeloInfo.InfoServer;
 import modeloInfo.InfoServerFuncional;
+import modeloInfo.Informable;
 
 public class ReceptorClientes implements Runnable {
 
 	@Override
 	public void run() {
 	     try {
+	    	//Ver que puerto poner.
 			ServerSocket sv = new ServerSocket(9090);
 			Server server = null;
 			ObjectOutputStream oos;
@@ -23,24 +25,26 @@ public class ReceptorClientes implements Runnable {
 			while(true) {
 				Socket socket = sv.accept();
 				ois = new ObjectInputStream(socket.getInputStream());
-				InfoServer solicitud = (InfoServer)ois.readObject();
+				Informable solicitud = (Informable)ois.readObject();
+                server = Administrador.getInstance().buscaServerPrimario();
+				if(server == null)
+					  server = Administrador.getInstance().buscaServerSecundario();
+				InfoServerFuncional info = new InfoServerFuncional();
+				info.setIpServer(server.getIpServer());
 				switch(solicitud.getIdOperacion()) {
-				   case 1:server = Administrador.getInstance().buscaServerPrimario();
-				       if(server == null)
-					       server = Administrador.getInstance().buscaServerSecundario();
-				       InfoServerFuncional info = new InfoServerFuncional();
-				       info.setIpServer(server.getIpServer());
-				       info.setPuertoServer(server.getPuertoServer());
-				       oos = new ObjectOutputStream(socket.getOutputStream());
-				       oos.writeObject(info);
-				       break;
+				    case 1:info.setPuertoServer(server.getPuertoServerEmpleado());
+				           break;
+				    case 2:info.setPuertoServer(server.getPuertoServerMonitor());
+				           break;
+				    case 3:info.setPuertoServer(server.getPuertoServerTotem());
+				           break;
 				}
+				oos = new ObjectOutputStream(socket.getOutputStream());
+				oos.writeObject(info);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

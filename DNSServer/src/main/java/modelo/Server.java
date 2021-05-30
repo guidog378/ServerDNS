@@ -2,10 +2,29 @@ package modelo;
 
 public class Server {
     private String ipServer;
-    private int puertoServer;
+    private int puertoServer,puertoServerEmpleado,puertoServerMonitor,puertoServerTotem;
     private boolean isPrimario;
     private boolean isFuncional;
      
+    
+	public int getPuertoServerEmpleado() {
+		return puertoServerEmpleado;
+	}
+	public void setPuertoServerEmpleado(int puertoServerEmpleado) {
+		this.puertoServerEmpleado = puertoServerEmpleado;
+	}
+	public int getPuertoServerMonitor() {
+		return puertoServerMonitor;
+	}
+	public void setPuertoServerMonitor(int puertoServerMonitor) {
+		this.puertoServerMonitor = puertoServerMonitor;
+	}
+	public int getPuertoServerTotem() {
+		return puertoServerTotem;
+	}
+	public void setPuertoServerTotem(int puertoServerTotem) {
+		this.puertoServerTotem = puertoServerTotem;
+	}
 	public boolean isFuncional() {
 		return isFuncional;
 	}
