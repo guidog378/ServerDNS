@@ -11,8 +11,9 @@ public class Administrador {
     	  this.servers = new ArrayList<Server>();
       }
       
-      public void agregarServer(Server sv) {
-    	  this.servers.add(sv);
+      public void agregarServer(String ip,int p1,int p2,int p3,int p4, boolean primario) {
+    	  this.servers.add(new Server(ip,p1,p2,p3,p4,primario));
+    	  System.out.println("Agregue un sv.");
       }
       
       public Server buscaServerPrimario() {

@@ -7,6 +7,17 @@ public class Server {
     private boolean isFuncional;
      
     
+	public Server(String ipServer, int puertoServer, int puertoServerEmpleado, int puertoServerMonitor,
+			int puertoServerTotem, boolean isPrimario) {
+		super();
+		this.ipServer = ipServer;
+		this.puertoServer = puertoServer;
+		this.puertoServerEmpleado = puertoServerEmpleado;
+		this.puertoServerMonitor = puertoServerMonitor;
+		this.puertoServerTotem = puertoServerTotem;
+		this.isPrimario = isPrimario;
+	}
+	
 	public int getPuertoServerEmpleado() {
 		return puertoServerEmpleado;
 	}
